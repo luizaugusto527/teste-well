@@ -1,4 +1,3 @@
-<?php include 'conecta.php'; ?>
 <?php include 'header.php'; ?>
 <?php include 'class/Turmas.php'; ?>
 

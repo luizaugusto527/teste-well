@@ -9,10 +9,19 @@
      $aluno=$_POST['aluno'];
      $dtMatricula=$_POST['dtMatricula'];
      $turma=$_POST['turma'];
-     $matricula = new Matricula();
-     $matricula->cadastrarMatricula($aluno,$dtMatricula, $turma);
-        
-     $sucess = true;
+     $r = new Turma();
+     $vaga = $r->consultaVagas($turma);
+
+     if ($vaga <= 0) {
+        $falha = true;
+        $sucess = false;
+     }else{
+         $matricula = new Matricula();
+         $matricula->cadastrarMatricula($aluno,$dtMatricula, $turma);
+         $sucess = true;
+         $falha = false;
+         $r->mudaVagas($turma);
+     }
 
  }
 ?>
@@ -20,9 +29,13 @@
 <div class="container-fluid">
     <div class="row  mt-5 mx-4">
     <?php
-    if(isset($sucess)){
+    if(isset($sucess) && $sucess == true){
         echo '<div class="alert alert-success col-md-4" role="alert class="sucess">
         Matricula efetuada com sucesso!';
+    }
+    if(isset($falha)  && $falha == true){
+        echo '<div class="alert alert-danger col-md-4" role="alert class="sucess">
+        Essa turma não possui vagas!';
     }
     ?>
 </div>
